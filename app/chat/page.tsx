@@ -48,7 +48,10 @@ export default function ChatPage() {
       />
 
       <div className="flex-1 flex flex-col min-h-0">
-        <Header onToggleProfile={() => setIsProfileOpen((v) => !v)} />
+        <Header 
+          onToggleSidebar={() => setIsSidebarOpen((v) => !v)}
+          onToggleProfile={() => setIsProfileOpen((v) => !v)} 
+        />
 
         <div className="flex-1 flex flex-col md:flex-row gap-6 p-6 overflow-hidden items-stretch min-h-0">
           <ChatPanel messages={messages} isLoading={isLoading} onSendMessage={handleSendMessage} />
