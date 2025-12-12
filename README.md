@@ -15,7 +15,7 @@ No password needed! Just enter your email and click the magic link sent to your 
 
 ## ✨ Features
 
-- 💬 **Real-time streaming responses** using openai/gpt-oss-20b
+- 💬 **Real-time responses** using openai/gpt-oss-20b
 - 🧠 **Personality analysis** based on conversation history
 - 💾 **Persistent conversations** stored in Supabase
 - 🔐 **Passwordless authentication** via magic links
