@@ -34,3 +34,13 @@ No password needed! Just enter your email and click the magic link sent to your 
 - **Deployment:** Vercel
 
 **Model used:** `openai/gpt-oss-20b` (free tier)
+
+
+## Environment Variables
+- #### Supabase Configuration
+    - NEXT_PUBLIC_SUPABASE_URL
+    - NEXT_PUBLIC_SUPABASE_ANON_KEY
+- #### LLM Configuration
+    - OPENAI_API_KEY
+    - LLM_BASE_URL
+    - LLM_MODEL
