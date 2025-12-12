@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Personality Chatbot
 
-## Getting Started
+A modern AI-powered chatbot that learns from conversations and generates personality profiles using openai/gpt-oss-20b model.
 
-First, run the development server:
+## 🚀 Live Demo
+**[https://chat-bot-tau-nine.vercel.app/](https://chat-bot-tau-nine.vercel.app/)**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### How to Access
+No password needed! Just enter your email and click the magic link sent to your inbox. ✨
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**For quick testing:**
+- Enter any email you have access to
+- Check your inbox for the magic link
+- Click the link to sign in instantly
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 💬 **Real-time streaming responses** using openai/gpt-oss-20b
+- 🧠 **Personality analysis** based on conversation history
+- 💾 **Persistent conversations** stored in Supabase
+- 🔐 **Passwordless authentication** via magic links
+- ⚡ **Optimistic UI updates** for instant feedback
+- 📱 **Fully responsive design**
+- ✅ **Comprehensive test coverage**
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend:** Next.js 14 (App Router), React 18, TypeScript
+- **Styling:** Tailwind CSS, shadcn/ui components
+- **AI:** openai/gpt-oss-20b via OpenAI SDK
+- **Database:** Supabase (PostgreSQL)
+- **Auth:** Supabase Auth with Magic Links
+- **Testing:** Vitest, React Testing Library
+- **Deployment:** Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Model used:** `openai/gpt-oss-20b` (free tier)

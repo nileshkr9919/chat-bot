@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #e6f3ff; /* soft light blue */
+  --foreground: #0f1724;
+  --surface: #ffffff;
+  --muted: #6b7280;
+  --accent: #4f46e5;
+  --on-accent: #ffffff;
 }
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #071033; /* base deep navy */
+    --foreground: #e6eef8;
+    --surface: #0b1630; /* slightly lighter panel */
+    --sidebar: #061026; /* darker sidebar */
+    --border: rgba(230,238,248,0.08);
+    --muted: #9aa4b2;
+    --muted-weak: rgba(158,168,177,0.08);
+    --accent: #4f46e5;
+    --on-accent: #ffffff;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+  @media (prefers-color-scheme: light) {
+    :root {
+      --background: #e6f3ff; /* soft light blue */
+      --foreground: #0f1724;
+      --surface: #ffffff;
+      --sidebar: #eaf6ff;
+      --border: rgba(15,23,36,0.06);
+      --muted: #6b7280;
+      --muted-weak: rgba(107,114,128,0.06);
+      --accent: #2563eb; /* blue accent on light */
+      --on-accent: #ffffff;
+    }
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  /* Utility: when using Tailwind classes, ensure background/foreground map to variables */
+  .bg-app { background-color: var(--background) !important; }
+  .text-app { color: var(--foreground) !important; }
+
+  /* Surface and accent utilities */
+  .surface { background-color: var(--surface) !important; }
+  .sidebar { background-color: var(--sidebar) !important; }
+  .muted { color: var(--muted) !important; }
+  .muted-bg { background-color: var(--muted-weak) !important; }
+  .bg-accent { background-color: var(--accent) !important; }
+  .bg-accent-hover { background-color: color-mix(in srgb, var(--accent) 85%, black 15%) !important; }
+  .text-on-accent { color: var(--on-accent) !important; }
+  .border-surface { border-color: var(--border) !important; }
+  .overlay-bg { background-color: rgba(0,0,0,0.45) !important; }
+  .text-accent { color: var(--accent) !important; }
+
+  /* Default form elements to match theme */
+  textarea, input, select {
+    background: var(--surface);
+    color: var(--foreground);
+    border-color: var(--border);
+  }
+
+  button { transition: background-color 120ms ease, color 120ms ease, transform 120ms ease; }
+
+  /* subtle card shadow */
+  .card-shadow { box-shadow: 0 6px 18px rgba(2,6,23,0.35); }
