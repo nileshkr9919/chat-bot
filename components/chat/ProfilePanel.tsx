@@ -11,7 +11,7 @@ interface ProfilePanelProps {
 
 export default function ProfilePanel({ profile, isLoading }: ProfilePanelProps) {
   return (
-    <aside className="hidden lg:block w-80 overflow-y-auto">
+    <aside className="hidden md:block w-80 overflow-y-auto min-h-0">
       <PersonalityProfileCard profile={profile} isLoading={isLoading} />
     </aside>
   );

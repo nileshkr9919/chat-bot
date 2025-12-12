@@ -1,12 +1,26 @@
 "use client";
 
 import React from "react";
+import { Sparkles, User } from 'lucide-react';
 
-export default function Header() {
+interface HeaderProps {
+  onToggleProfile?: () => void;
+}
+
+export default function Header({ onToggleProfile }: HeaderProps) {
   return (
     <header className="surface border-b border-surface p-4 flex items-center justify-between">
       <h1 className="text-xl font-semibold text-app">AI Chat Assistant</h1>
-      <div className="w-8" />
+      <div className="flex items-center gap-2">
+        {/* mobile profile button */}
+        <button
+          aria-label="Open profile"
+          onClick={onToggleProfile}
+          className="md:hidden inline-flex items-center justify-center w-8 h-8 rounded-md bg-accent text-on-accent"
+        >
+          <User size={16} />
+        </button>
+      </div>
     </header>
   );
 }

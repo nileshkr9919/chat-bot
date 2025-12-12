@@ -45,13 +45,13 @@ export function MessageInput({ onSendMessage, isLoading }: MessageInputProps) {
 
   return (
     <div className="border-t border-surface surface p-4">
-      <div className="flex gap-2 items-end">
+      <div className="flex gap-2 items-center">
         <textarea
           ref={textareaRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Type your message... (Shift+Enter for new line)"
+          placeholder="Type your message..."
           disabled={isSending || isLoading}
           rows={1}
           className="flex-1 resize-none border border-surface rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent bg-app text-app disabled:opacity-60"

@@ -1,6 +1,9 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeSanitize from 'rehype-sanitize';
 import type { Message } from '@/lib/types';
 
 interface MessageListProps {
@@ -38,7 +41,11 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
                     : 'surface text-app rounded-bl-none'
                 }`}
               >
-                <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
+                <div className="prose prose-invert text-sm whitespace-pre-wrap break-words">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSanitize]}> 
+                    {message.content}
+                  </ReactMarkdown>
+                </div>
                 <p className={`text-xs mt-1 ${message.role === 'user' ? 'muted' : 'muted'}`}>
                   {new Date(message.created_at).toLocaleTimeString()}
                 </p>

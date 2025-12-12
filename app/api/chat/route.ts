@@ -11,6 +11,7 @@ import {
   generatePersonalityProfile,
   shouldGenerateProfile,
   generateProfileResponse,
+  generateChatResponseStream,
 } from '@/lib/llm';
 import type { ChatMessage } from '@/lib/types';
 
@@ -75,27 +76,68 @@ export async function POST(request: NextRequest) {
           "I'd love to tell you about yourself! Let's chat a bit more first, and after a few more messages, I'll have enough insight to share your personality profile.";
       }
     } else {
-      // Regular conversation
-      assistantResponse = (await generateChatResponse(chatHistory)).content;
+      // Regular conversation - stream the response
+      const stream = new ReadableStream({
+        async start(controller) {
+          try {
+            let fullResponse = '';
+            const streamGenerator = generateChatResponseStream(chatHistory);
 
-      // Check if we should auto-generate profile
-      if (shouldGenerateProfile(chatHistory.length)) {
-        try {
-          const profile = await generatePersonalityProfile(chatHistory);
-          await savePersonalityProfile({
-            user_id: userId,
-            conversation_id: conversationId,
-            ...profile,
-          });
-          profileGenerated = true;
-        } catch (error) {
-          console.error('Error generating personality profile:', error);
-          // Continue without profile generation
-        }
-      }
+            for await (const chunk of streamGenerator) {
+              fullResponse += chunk;
+              controller.enqueue(`data: ${JSON.stringify({ chunk })}\n\n`);
+            }
+
+            // Save the full response
+            await saveMessage(conversationId, userId, 'assistant', fullResponse);
+
+            // Check if we should auto-generate profile
+            if (shouldGenerateProfile(chatHistory.length)) {
+              try {
+                const profile = await generatePersonalityProfile([...chatHistory, { role: 'assistant', content: fullResponse }]);
+                await savePersonalityProfile({
+                  user_id: userId,
+                  conversation_id: conversationId,
+                  ...profile,
+                });
+                profileGenerated = true;
+              } catch (error) {
+                console.error('Error generating personality profile:', error);
+              }
+            }
+
+            // Auto-generate title for first message
+            if (messages.length === 1) {
+              try {
+                const titleResponse = await generateChatResponse(
+                  [{ role: 'user', content: `Create a brief 3-5 word title for this conversation: "${userMessage}"` }],
+                  'Generate a short, relevant title.'
+                );
+                await updateConversationTitle(conversationId, titleResponse.content.slice(0, 100));
+              } catch (error) {
+                console.error('Error generating title:', error);
+              }
+            }
+
+            controller.enqueue(`data: ${JSON.stringify({ done: true, profileGenerated })}\n\n`);
+            controller.close();
+          } catch (error) {
+            console.error('Streaming error:', error);
+            controller.error(error);
+          }
+        },
+      });
+
+      return new Response(stream, {
+        headers: {
+          'Content-Type': 'text/event-stream',
+          'Cache-Control': 'no-cache',
+          'Connection': 'keep-alive',
+        },
+      });
     }
 
-    // Save assistant response
+    // For non-streaming responses (profile responses)
     await saveMessage(conversationId, userId, 'assistant', assistantResponse);
 
     // Auto-generate title for first message
