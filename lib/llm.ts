@@ -45,6 +45,38 @@ export async function generateChatResponse(
   };
 }
 
+export async function* generateChatResponseStream(
+  messages: ChatMessage[],
+  systemPrompt?: string
+): AsyncGenerator<string, void, unknown> {
+  if (!client) {
+    throw new Error('OpenAI client not initialized. Check API key and environment.');
+  }
+
+  const stream = await client.chat.completions.create({
+    model: MODEL,
+    max_tokens: 1024,
+    messages: [
+      {
+        role: 'system',
+        content: systemPrompt || 'You are a helpful and friendly AI chatbot. Engage naturally with the user.',
+      },
+      ...messages.map((msg) => ({
+        role: msg.role as 'user' | 'assistant',
+        content: msg.content,
+      })),
+    ],
+    stream: true,
+  });
+
+  for await (const chunk of stream) {
+    const content = chunk.choices[0]?.delta?.content;
+    if (content) {
+      yield content;
+    }
+  }
+}
+
 export async function generatePersonalityProfile(
   messages: ChatMessage[]
 ): Promise<Omit<PersonalityProfile, 'id' | 'user_id' | 'conversation_id' | 'created_at' | 'updated_at'>> {
